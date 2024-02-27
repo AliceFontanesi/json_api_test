@@ -78,7 +78,7 @@ addresses.each do |address|
 
     describe "PATCH /products/#{$id}" do
       before (:each) do
-        @patch_body = { data: { type: "products", attributes: { marca: "nuova_marca", nome: "nuovo_nome", prezzo: 5 }}}
+        @patch_body = { data: { type: "products", attributes: { marca: "nuova_marca", nome: "nuovo_nome", prezzo: 5 } } }
 
         @response = Faraday.patch("http://#{address}:#{port}/products/#{$id}", @patch_body)
         @json_response = JSON.parse(@response.body)
