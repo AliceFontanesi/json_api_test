@@ -53,7 +53,7 @@ addresses.each do |address|
 
     end
 
-    describe "GET /products/{id}" do
+    describe "GET /products/:id" do
       before (:each) do
         @response = Faraday.get("http://#{address}:#{port}/products/#{$id}")
         @json_response = JSON.parse(@response.body)
@@ -78,7 +78,7 @@ addresses.each do |address|
 
     end
 
-    describe "PATCH /products/{$id}" do
+    describe "PATCH /products/:id" do
       before (:each) do
         @patch_body = { data: { type: "products", attributes: { marca: "nuova_marca", nome: "nuovo_nome", prezzo: 5 } } }
 
@@ -106,7 +106,7 @@ addresses.each do |address|
       it { expect(@json_response["data"]["attributes"]["prezzo"]).to eq(@patch_body[:data][:attributes][:prezzo]) }
     end
 
-    describe "DELETE /products/{$id}" do
+    describe "DELETE /products/:id" do
       before (:each) do
         @response = Faraday.delete("http://#{address}:#{port}/products/#{$id}")
       end
