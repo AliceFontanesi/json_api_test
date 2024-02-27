@@ -1,5 +1,5 @@
 ```
 $ sudo apt install -y ruby
 $ gem install rspec faraday
-$ rspec tesr.rb
+$ rspec test.rb
 ```
