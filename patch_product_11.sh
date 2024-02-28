@@ -7,4 +7,4 @@ curl -X PATCH -H "Content-Type: application/json" -d '{
       "prezzo": "11"
     }
   }
-}' http://127.0.0.1:8081/products/11
+}' http://127.0.0.1:8081/products/113
