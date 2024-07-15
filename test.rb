@@ -1,8 +1,9 @@
 require "json"
 require "faraday"
+require "rspec"
 
 addresses = ["127.0.0.1"]
-port = 3000
+port = 8081
 
 $random_price = rand(10..10000)
 $body = { data: { type: "products", attributes: { marca: "Adidas#{$random_price}", nome: "superstar#{$random_price}", prezzo: $random_price } } }
@@ -12,7 +13,7 @@ addresses.each do |address|
 
     describe "POST /products" do
       before (:each) do
-        @response = Faraday.post("http://#{address}:#{port}/products", $body)
+        @response = Faraday.post("http://#{address}:#{port}/products", JSON.generate($body))
         @json_response = JSON.parse(@response.body)
         $id = @json_response["data"]["id"]
       end
@@ -51,7 +52,7 @@ addresses.each do |address|
 
     end
 
-    describe "GET /products/#{$id}" do
+    describe "GET /products/{id}" do
       before (:each) do
         @response = Faraday.get("http://#{address}:#{port}/products/#{$id}")
         @json_response = JSON.parse(@response.body)
@@ -76,11 +77,11 @@ addresses.each do |address|
 
     end
 
-    describe "PATCH /products/#{$id}" do
+    describe "PATCH /products/{$id}" do
       before (:each) do
         @patch_body = { data: { type: "products", attributes: { marca: "nuova_marca", nome: "nuovo_nome", prezzo: 5 } } }
 
-        @response = Faraday.patch("http://#{address}:#{port}/products/#{$id}", @patch_body)
+        @response = Faraday.patch("http://#{address}:#{port}/products/#{$id}", JSON.generate(@patch_body))
         @json_response = JSON.parse(@response.body)
 
       end
@@ -104,7 +105,7 @@ addresses.each do |address|
       it { expect(@json_response["data"]["attributes"]["prezzo"]).to eq(@patch_body[:data][:attributes][:prezzo]) }
     end
 
-    describe "DELETE /products/#{$id}" do
+    describe "DELETE /products/{$id}" do
       before (:each) do
         @response = Faraday.delete("http://#{address}:#{port}/products/#{$id}")
       end
