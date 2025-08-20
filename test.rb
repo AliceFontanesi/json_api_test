@@ -1,6 +1,7 @@
 require "json"
 require "faraday"
-require "rspec"
+
+raise "Usa 'rspec #{__FILE__}'" unless defined? RSpec
 
 addresses = ["127.0.0.1"]
 port = 8081
@@ -13,7 +14,7 @@ addresses.each do |address|
 
     describe "POST /products" do
       before (:each) do
-        @response = Faraday.post("http://#{address}:#{port}/products", JSON.generate($body))
+        @response = Faraday.post("http://#{address}:#{port}/products", JSON.generate($body), {'Content-Type'=>'application/json'})
         @json_response = JSON.parse(@response.body)
         $id = @json_response["data"]["id"]
       end
@@ -81,7 +82,7 @@ addresses.each do |address|
       before (:each) do
         @patch_body = { data: { type: "products", attributes: { marca: "nuova_marca", nome: "nuovo_nome", prezzo: 5 } } }
 
-        @response = Faraday.patch("http://#{address}:#{port}/products/#{$id}", JSON.generate(@patch_body))
+        @response = Faraday.patch("http://#{address}:#{port}/products/#{$id}", JSON.generate(@patch_body), {'Content-Type'=>'application/json'})
         @json_response = JSON.parse(@response.body)
 
       end
